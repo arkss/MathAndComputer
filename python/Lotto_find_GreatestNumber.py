@@ -1,10 +1,28 @@
 import random
 
+"""
+f=open('C:/Users/sochu/OneDrive/lottotest.txt') 경로 바꿔주기
+a=f.read() # 모든 줄을 다 읽는다.
+f.close()
+print(a)
+split =a.split()
+print(split)
+resultlist=[]
+for i in range(len(split)):
+    resultlist.append(int(split[i]))
+print(resultlist)
+
+"""
+
 
 list_all = [] # 모든 수를 저장할 리스트
 number_count = [] # 각 수가 몇 번 나왔는지 확인하는 리스트
-origin_number_count = [] # number_count는 sorting을 할 것이기 때문에 원래의 값을 보존하고 있을 리스트
-for i in range(1000):
+number_count_flatten = [] 
+# number list를 평탄화한 리스트/ 여태까지 데이터에서 1이 3번 나왔으면 1을 3번 넣어준다.
+answer = [] # 최종 결과값을 담을 리스트
+
+# 총 1000회 data를 생성
+for i in range(10):
     
     list = []
     count = 0
@@ -22,19 +40,41 @@ for i in range(1000):
     
 print("list_all", list_all)
 
+
 # 1부터 45까지의 수들이 각각 총 몇 번 나왔는지 
 for i in range(1,46):
     number_count.append(list_all.count(i))
 
-for i in range(len(number_count)):
-    origin_number_count.append(number_count[i])
-
-number_count.sort(reverse = True) # sorting 해주면 index 0~5까지가 제일 순서대로 제일 큰 수 이다.
-
-
-print("origin_number_count :",origin_number_count)
 print("number_count :",number_count)
 
-# 로또 번호는 1부터 시작하고 index는 0부터 시작하므로 구한 index에 1을 더해 출력한다.
-for i in range(6):
-    print(origin_number_count.index(number_count[i])+1)
+
+for i in range(45):
+    # 해당 숫자가 한 번도 나오지 않았으면 다음 숫자로 넘어간다.
+    if number_count[i] == 0:
+        continue
+    # 해당 숫자가 나온 count 만큼 반복해서 number_count_flatten 에 넣어준다.
+    for j in range(number_count[i]):
+        number_count_flatten.append(i+1)
+
+print("number_count_flatten" ,number_count_flatten)
+
+# number_count_flatten 에서 random하게 숫자 6개를 뽑는다.
+
+while 1:
+    # 0 부터 number_count_flatten 의 길이 중 랜덤한 수룰 뽑는다.
+    random_number = random.randint(0,len(number_count_flatten)-1)
+    if number_count_flatten[random_number] in answer :
+        continue
+    answer.append(number_count_flatten[random_number])
+    if len(answer) == 6:
+        break
+
+print("answer :" , answer)
+
+
+
+
+
+
+
+
